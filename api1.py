@@ -1,17 +1,31 @@
-from fastapi import FastAPI
-import pandas as pd
 import json
 
+import pandas as pd
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 
 app = FastAPI()
 
-@app.get("/")
 
-def root():
-    return{"Hello : shivesh "}
+origins = ["*"]
+# Configure cross origins
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/")
+def root(request:Request):
+    return RedirectResponse('/docs', status_code=200)
+
+from typing import Dict
 
 from pydantic import BaseModel
-from typing import Dict
+
 
 class InputProperties(BaseModel):
   u_L: int
