@@ -20,7 +20,7 @@ app.add_middleware(
 
 @app.get("/")
 def root(request:Request):
-    return RedirectResponse('/docs', status_code=200)
+    return RedirectResponse('/docs', status_code=303)
 
 from typing import Dict
 
