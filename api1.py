@@ -204,19 +204,21 @@ def get_image_url(df):
     response_dict = {}
     with open('image_mapping.json') as file_obj:
         json_data = json.load(file_obj)
-    
+    print('output - ', end=" ")
     for count, data in enumerate(df.sort_values(by='Score', ascending=False).head(3)['S_no'][0:3], start=1):
+        print(data, end=", ")
         response_dict[f'result_{count}'] = json_data.get(f'a{data}')
-    
+    print()
     return response_dict
 
 @app.post("/property/")
 def get_property_by_s_no(test_input: InputProperties):
-    print(test_input)
     u_area = test_input.u_L * test_input.u_B
     u_AR = test_input.u_L / test_input.u_B
-    return dt(u_area,u_AR,test_input.u_room,test_input.u_car,test_input.u_temple,test_input.u_gym,\
-              test_input.u_theater,test_input.u_office,test_input.u_vastu,test_input.u_position)
+    print('input  - ', test_input)
+    return dt(u_area,u_AR, test_input.u_room, test_input.u_car,test_input.u_temple.lower(),
+              test_input.u_gym.lower(), test_input.u_theater.lower(), 
+              test_input.u_office.lower(),test_input.u_vastu.lower(),test_input.u_position.lower())
 
     # # Create a list of dictionaries containing S_no and their corresponding scores
     # property_scores = [{"S_no": s_no, "Score": score} for s_no, score in enumerate(scores, start=1)]
